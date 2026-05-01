@@ -181,7 +181,7 @@ function saveSticker(key, value) {
   if (value) ownedStickers[key] = true;
   else delete ownedStickers[key];
   localStorage.setItem("album_stickers", JSON.stringify(ownedStickers));
-  renderAll();
+  updateStickerStates();
 }
 
 function loadFromLocalStorage() {
@@ -218,6 +218,58 @@ document.querySelectorAll(".tab").forEach(tab => {
 });
 
 // ==================== RENDER SECTIONS ====================
+function updateStickerStates() {
+  // Atualiza apenas o estado visual das figurinhas sem reconstruir o DOM
+  document.querySelectorAll(".sticker").forEach(el => {
+    const code = el.dataset.code;
+    if (isOwned(code)) {
+      el.classList.remove("missing");
+      el.classList.add("owned");
+    } else {
+      el.classList.remove("owned");
+      el.classList.add("missing");
+    }
+  });
+  
+  // Atualiza contadores das seções
+  ALBUM_DATA.forEach((section, si) => {
+    const allStickers = [];
+    section.teams.forEach(t => allStickers.push(...t.stickers));
+    const ownedInSection = allStickers.filter(s => isOwned(s)).length;
+    const totalInSection = allStickers.length;
+    const complete = ownedInSection === totalInSection;
+    
+    const header = document.querySelector(`#arrow-${si}`)?.closest('.section-header');
+    if (header) {
+      const badge = header.querySelector('.badge');
+      if (badge) {
+        badge.textContent = `${ownedInSection}/${totalInSection}`;
+        badge.className = `badge ${complete ? 'complete' : ''}`;
+      }
+    }
+    
+    // Atualiza contadores dos times
+    const body = document.getElementById(`body-${si}`);
+    if (body) {
+      section.teams.forEach((team, ti) => {
+        if (team.name) {
+          const teamOwned = team.stickers.filter(s => isOwned(s)).length;
+          const countryGroups = body.querySelectorAll('.country-group');
+          if (countryGroups[ti]) {
+            const countryName = countryGroups[ti].querySelector('.country-name');
+            if (countryName) {
+              countryName.textContent = `${team.name} (${teamOwned}/${team.stickers.length})`;
+            }
+          }
+        }
+      });
+    }
+  });
+  
+  // Atualiza dashboard
+  updateDashboard();
+}
+
 function buildSections() {
   const container = document.getElementById("sectionsContainer");
   // Salvar quais seções estão abertas antes de reconstruir
