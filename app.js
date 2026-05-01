@@ -220,6 +220,11 @@ document.querySelectorAll(".tab").forEach(tab => {
 // ==================== RENDER SECTIONS ====================
 function buildSections() {
   const container = document.getElementById("sectionsContainer");
+  // Salvar quais seções estão abertas antes de reconstruir
+  const openSections = new Set();
+  container.querySelectorAll(".section-body.open").forEach(el => {
+    openSections.add(el.id);
+  });
   container.innerHTML = "";
   ALBUM_DATA.forEach((section, si) => {
     const allStickers = [];
@@ -268,6 +273,11 @@ function buildSections() {
       group.appendChild(grid);
       body.appendChild(group);
     });
+
+    // Restaurar estado aberto se estava aberto antes
+    if (openSections.has(`body-${si}`)) {
+      body.classList.add("open");
+    }
 
     header.addEventListener("click", () => {
       body.classList.toggle("open");
