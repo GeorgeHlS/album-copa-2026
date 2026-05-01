@@ -2,7 +2,7 @@
 const ALBUM_DATA = [
   {
     section: "Pagina Inicial",
-    teams: [{ name: "", stickers: ["FWC 1","FWC 2","FWC 3","FWC 4"] }]
+    teams: [{ name: "", stickers: ["FWC 0","FWC 1","FWC 2","FWC 3","FWC 4"] }]
   },
   {
     section: "Paises/Cidades",
