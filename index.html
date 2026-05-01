@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Album Copa 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Album Copa do Mundo 2026</h1>
+  <div class="subtitle">Controle de Figurinhas</div>
+  <div class="sync-status">
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncLabel">Offline</span>
+  </div>
+</header>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Buscar figurinha... (ex: BRA 10, FWC 3)">
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="dashboard">Dashboard</div>
+  <div class="tab" data-tab="album">Album</div>
+</div>
+
+<div id="dashboardTab" class="tab-content active">
+  <div class="dashboard">
+    <div class="stat-card">
+      <div class="number" id="ownedCount">0</div>
+      <div class="label">Figurinhas</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="missingCount">0</div>
+      <div class="label">Faltam</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="totalCount">0</div>
+      <div class="label">Total</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="pctCount">0%</div>
+      <div class="label">Completo</div>
+    </div>
+    <div class="stat-card full">
+      <div class="label" style="margin-bottom:4px;font-weight:600">Progresso Geral</div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBar" style="width:0%">0%</div>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="groupChart"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="pieChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<div id="albumTab" class="tab-content">
+  <div class="sections" id="sectionsContainer"></div>
+</div>
+
+<div class="quick-add">
+  <input type="text" id="quickInput" placeholder="Marcar: BRA 10, MEX 5, FWC 1...">
+  <button id="quickBtn">Marcar</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
