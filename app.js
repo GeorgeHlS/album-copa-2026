@@ -133,8 +133,10 @@ const TOTAL = ALL_STICKERS.size;
 
 // ==================== STATE ====================
 let ownedStickers = {};
+let duplicateStickers = {};
 let firebaseReady = false;
 let dbRef = null;
+let dupRef = null;
 
 // ==================== FIREBASE ====================
 // >>> CONFIGURE SEU FIREBASE AQUI <<<
@@ -158,10 +160,16 @@ function initFirebase() {
     }
     firebase.initializeApp(FIREBASE_CONFIG);
     dbRef = firebase.database().ref("album/stickers");
+    dupRef = firebase.database().ref("album/duplicates");
     dbRef.on("value", (snapshot) => {
       ownedStickers = snapshot.val() || {};
       updateSyncStatus(true);
       renderAll();
+    });
+    dupRef.on("value", (snapshot) => {
+      duplicateStickers = snapshot.val() || {};
+      localStorage.setItem("album_duplicates", JSON.stringify(duplicateStickers));
+      buildDuplicates();
     });
     firebase.database().ref(".info/connected").on("value", (snap) => {
       updateSyncStatus(snap.val() === true);
@@ -184,10 +192,25 @@ function saveSticker(key, value) {
   updateStickerStates();
 }
 
+function saveDuplicate(key, count) {
+  if (count <= 0) {
+    delete duplicateStickers[key];
+    if (firebaseReady && dupRef) dupRef.child(key).remove();
+  } else {
+    duplicateStickers[key] = count;
+    if (firebaseReady && dupRef) dupRef.child(key).set(count);
+  }
+  localStorage.setItem("album_duplicates", JSON.stringify(duplicateStickers));
+  buildDuplicates();
+}
+
 function loadFromLocalStorage() {
   try {
     ownedStickers = JSON.parse(localStorage.getItem("album_stickers") || "{}");
   } catch(e) { ownedStickers = {}; }
+  try {
+    duplicateStickers = JSON.parse(localStorage.getItem("album_duplicates") || "{}");
+  } catch(e) { duplicateStickers = {}; }
   renderAll();
 }
 
@@ -417,6 +440,7 @@ function updateDashboard() {
 function renderAll() {
   buildSections();
   updateDashboard();
+  buildDuplicates();
 }
 
 // ==================== SEARCH ====================
@@ -468,6 +492,74 @@ function quickAdd() {
   });
   if (count > 0) {
     showToast(`${count} figurinha(s) marcada(s)!`);
+    input.value = "";
+  } else {
+    showToast("Nenhuma figurinha encontrada");
+  }
+}
+
+// ==================== DUPLICATES ====================
+function buildDuplicates() {
+  const list = document.getElementById("dupList");
+  if (!list) return;
+  list.innerHTML = "";
+
+  const entries = Object.entries(duplicateStickers)
+    .filter(([_, count]) => count > 0)
+    .sort(([a], [b]) => a.localeCompare(b));
+
+  const total = entries.reduce((sum, [_, count]) => sum + count, 0);
+  document.getElementById("dupTotal").textContent = total;
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="dup-empty">Nenhuma figurinha repetida registrada</div>';
+    return;
+  }
+
+  entries.forEach(([key, count]) => {
+    const code = key.replace(/_/g, " ");
+    const item = document.createElement("div");
+    item.className = "dup-item";
+    item.innerHTML = `
+      <span class="dup-code">${code}</span>
+      <div class="dup-controls">
+        <button class="dup-minus">-</button>
+        <span class="dup-count">${count}</span>
+        <button class="dup-plus">+</button>
+      </div>
+    `;
+    item.querySelector(".dup-minus").addEventListener("click", () => {
+      saveDuplicate(key, count - 1);
+    });
+    item.querySelector(".dup-plus").addEventListener("click", () => {
+      saveDuplicate(key, count + 1);
+    });
+    list.appendChild(item);
+  });
+}
+
+document.getElementById("dupBtn").addEventListener("click", addDuplicates);
+document.getElementById("dupInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") addDuplicates();
+});
+
+function addDuplicates() {
+  const input = document.getElementById("dupInput");
+  const raw = input.value.trim();
+  if (!raw) return;
+  const codes = raw.split(",").map(s => s.trim().toUpperCase());
+  let count = 0;
+  codes.forEach(code => {
+    const matched = ALL_STICKERS.has(code) ? code : [...ALL_STICKERS].find(s => s.toUpperCase() === code);
+    if (matched) {
+      const key = stickerKey(matched);
+      const current = duplicateStickers[key] || 0;
+      saveDuplicate(key, current + 1);
+      count++;
+    }
+  });
+  if (count > 0) {
+    showToast(`${count} repetida(s) adicionada(s)!`);
     input.value = "";
   } else {
     showToast("Nenhuma figurinha encontrada");

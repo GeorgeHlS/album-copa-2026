@@ -27,6 +27,7 @@
 <div class="tabs">
   <div class="tab active" data-tab="dashboard">Dashboard</div>
   <div class="tab" data-tab="album">Album</div>
+  <div class="tab" data-tab="repetidas">Repetidas</div>
 </div>
 
 <div id="dashboardTab" class="tab-content active">
@@ -64,6 +65,20 @@
 
 <div id="albumTab" class="tab-content">
   <div class="sections" id="sectionsContainer"></div>
+</div>
+
+<div id="repetidasTab" class="tab-content">
+  <div class="repetidas-container">
+    <div class="dup-summary" id="dupSummary">
+      <div class="number" id="dupTotal">0</div>
+      <div class="label">Figurinhas repetidas</div>
+    </div>
+    <div class="dup-add">
+      <input type="text" id="dupInput" placeholder="Adicionar repetidas: BRA 1, BRA 1, MEX 5...">
+      <button id="dupBtn">Adicionar</button>
+    </div>
+    <div id="dupList"></div>
+  </div>
 </div>
 
 <div class="quick-add">
