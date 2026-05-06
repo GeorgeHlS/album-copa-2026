@@ -128,34 +128,32 @@ const ALBUM_DATA = [
 
 // ==================== FLAGS ====================
 const FLAGS = {
-  "México": "\u{1F1F2}\u{1F1FD}", "África do Sul": "\u{1F1FF}\u{1F1E6}",
-  "Coreia do Sul": "\u{1F1F0}\u{1F1F7}", "República Tcheca": "\u{1F1E8}\u{1F1FF}",
-  "Canadá": "\u{1F1E8}\u{1F1E6}", "Bósnia": "\u{1F1E7}\u{1F1E6}",
-  "Catar": "\u{1F1F6}\u{1F1E6}", "Suíça": "\u{1F1E8}\u{1F1ED}",
-  "Brasil": "\u{1F1E7}\u{1F1F7}", "Marrocos": "\u{1F1F2}\u{1F1E6}",
-  "Haiti": "\u{1F1ED}\u{1F1F9}", "Escócia": "\u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}",
-  "Estados Unidos": "\u{1F1FA}\u{1F1F8}", "Paraguai": "\u{1F1F5}\u{1F1FE}",
-  "Austrália": "\u{1F1E6}\u{1F1FA}", "Turquia": "\u{1F1F9}\u{1F1F7}",
-  "Alemanha": "\u{1F1E9}\u{1F1EA}", "Curaçao": "\u{1F1E8}\u{1F1FC}",
-  "Costa do Marfim": "\u{1F1E8}\u{1F1EE}", "Equador": "\u{1F1EA}\u{1F1E8}",
-  "Holanda": "\u{1F1F3}\u{1F1F1}", "Japão": "\u{1F1EF}\u{1F1F5}",
-  "Suécia": "\u{1F1F8}\u{1F1EA}", "Tunísia": "\u{1F1F9}\u{1F1F3}",
-  "Bélgica": "\u{1F1E7}\u{1F1EA}", "Egito": "\u{1F1EA}\u{1F1EC}",
-  "Irã": "\u{1F1EE}\u{1F1F7}", "Nova Zelândia": "\u{1F1F3}\u{1F1FF}",
-  "Espanha": "\u{1F1EA}\u{1F1F8}", "Cabo Verde": "\u{1F1E8}\u{1F1FB}",
-  "Arábia Saudita": "\u{1F1F8}\u{1F1E6}", "Uruguai": "\u{1F1FA}\u{1F1FE}",
-  "França": "\u{1F1EB}\u{1F1F7}", "Senegal": "\u{1F1F8}\u{1F1F3}",
-  "Iraque": "\u{1F1EE}\u{1F1F6}", "Noruega": "\u{1F1F3}\u{1F1F4}",
-  "Argentina": "\u{1F1E6}\u{1F1F7}", "Argélia": "\u{1F1E9}\u{1F1FF}",
-  "Áustria": "\u{1F1E6}\u{1F1F9}", "Jordânia": "\u{1F1EF}\u{1F1F4}",
-  "Portugal": "\u{1F1F5}\u{1F1F9}", "Congo": "\u{1F1E8}\u{1F1E9}",
-  "Uzbequistão": "\u{1F1FA}\u{1F1FF}", "Colômbia": "\u{1F1E8}\u{1F1F4}",
-  "Inglaterra": "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}",
-  "Croácia": "\u{1F1ED}\u{1F1F7}", "Gana": "\u{1F1EC}\u{1F1ED}",
-  "Panamá": "\u{1F1F5}\u{1F1E6}",
+  "México":"mx", "África do Sul":"za", "Coreia do Sul":"kr",
+  "República Tcheca":"cz", "Canadá":"ca", "Bósnia":"ba",
+  "Catar":"qa", "Suíça":"ch", "Brasil":"br", "Marrocos":"ma",
+  "Haiti":"ht", "Escócia":"gb-sct", "Estados Unidos":"us",
+  "Paraguai":"py", "Austrália":"au", "Turquia":"tr",
+  "Alemanha":"de", "Curaçao":"cw", "Costa do Marfim":"ci",
+  "Equador":"ec", "Holanda":"nl", "Japão":"jp",
+  "Suécia":"se", "Tunísia":"tn", "Bélgica":"be", "Egito":"eg",
+  "Irã":"ir", "Nova Zelândia":"nz", "Espanha":"es",
+  "Cabo Verde":"cv", "Arábia Saudita":"sa", "Uruguai":"uy",
+  "França":"fr", "Senegal":"sn", "Iraque":"iq", "Noruega":"no",
+  "Argentina":"ar", "Argélia":"dz", "Áustria":"at",
+  "Jordânia":"jo", "Portugal":"pt", "Congo":"cd",
+  "Uzbequistão":"uz", "Colômbia":"co",
+  "Inglaterra":"gb-eng", "Croácia":"hr", "Gana":"gh",
+  "Panamá":"pa", "Nigéria":"ng", "Camarões":"cm",
+  "Chile":"cl", "Costa Rica":"cr", "Peru":"pe",
+  "Sérvia":"rs", "Dinamarca":"dk", "Polônia":"pl",
+  "Itália":"it", "Gales":"gb-wls",
 };
 
-function getFlag(name) { return FLAGS[name] || ""; }
+function getFlagHTML(name) {
+  const code = FLAGS[name];
+  if (!code) return "";
+  return `<img src="https://flagcdn.com/20x15/${code}.png" width="20" height="15" alt="${name}" style="vertical-align:middle;margin-right:4px;">`;
+}
 
 // Build unique sticker set and total count
 const ALL_STICKERS = new Set();
@@ -312,7 +310,7 @@ function updateStickerStates() {
           if (countryGroups[ti]) {
             const countryName = countryGroups[ti].querySelector('.country-name');
             if (countryName) {
-              countryName.textContent = `${getFlag(team.name)} ${team.name} (${teamOwned}/${team.stickers.length})`;
+              countryName.innerHTML = `${getFlagHTML(team.name)}${team.name} (${teamOwned}/${team.stickers.length})`;
             }
           }
         }
@@ -359,7 +357,7 @@ function buildSections() {
         const cname = document.createElement("div");
         cname.className = "country-name";
         const teamOwned = team.stickers.filter(s => isOwned(s)).length;
-        cname.textContent = `${getFlag(team.name)} ${team.name} (${teamOwned}/${team.stickers.length})`;
+        cname.innerHTML = `${getFlagHTML(team.name)}${team.name} (${teamOwned}/${team.stickers.length})`;
         group.appendChild(cname);
       }
       const grid = document.createElement("div");
