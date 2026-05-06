@@ -5,25 +5,25 @@ const ALBUM_DATA = [
     teams: [{ name: "", stickers: ["0","FWC 1","FWC 2","FWC 3","FWC 4"] }]
   },
   {
-    section: "Paises/Cidades",
+    section: "Países/Cidades",
     teams: [{ name: "", stickers: ["FWC 4","FWC 5","FWC 6","FWC 7","FWC 8"] }]
   },
   {
     section: "Grupo A",
     teams: [
-      { name: "Mexico", stickers: Array.from({length:20},(_,i)=>`MEX ${i+1}`) },
-      { name: "Africa do Sul", stickers: Array.from({length:20},(_,i)=>`RSA ${i+1}`) },
+      { name: "México", stickers: Array.from({length:20},(_,i)=>`MEX ${i+1}`) },
+      { name: "África do Sul", stickers: Array.from({length:20},(_,i)=>`RSA ${i+1}`) },
       { name: "Coreia do Sul", stickers: Array.from({length:20},(_,i)=>`KOR ${i+1}`) },
-      { name: "Republica Tcheca", stickers: Array.from({length:20},(_,i)=>`CZE ${i+1}`) },
+      { name: "República Tcheca", stickers: Array.from({length:20},(_,i)=>`CZE ${i+1}`) },
     ]
   },
   {
     section: "Grupo B",
     teams: [
-      { name: "Canada", stickers: Array.from({length:20},(_,i)=>`CAN ${i+1}`) },
-      { name: "Bosnia", stickers: Array.from({length:20},(_,i)=>`BIH ${i+1}`) },
+      { name: "Canadá", stickers: Array.from({length:20},(_,i)=>`CAN ${i+1}`) },
+      { name: "Bósnia", stickers: Array.from({length:20},(_,i)=>`BIH ${i+1}`) },
       { name: "Catar", stickers: Array.from({length:20},(_,i)=>`QAT ${i+1}`) },
-      { name: "Suica", stickers: Array.from({length:20},(_,i)=>`SUI ${i+1}`) },
+      { name: "Suíça", stickers: Array.from({length:20},(_,i)=>`SUI ${i+1}`) },
     ]
   },
   {
@@ -32,7 +32,7 @@ const ALBUM_DATA = [
       { name: "Brasil", stickers: Array.from({length:20},(_,i)=>`BRA ${i+1}`) },
       { name: "Marrocos", stickers: Array.from({length:20},(_,i)=>`MAR ${i+1}`) },
       { name: "Haiti", stickers: Array.from({length:20},(_,i)=>`HAI ${i+1}`) },
-      { name: "Escocia", stickers: Array.from({length:20},(_,i)=>`SCO ${i+1}`) },
+      { name: "Escócia", stickers: Array.from({length:20},(_,i)=>`SCO ${i+1}`) },
     ]
   },
   {
@@ -40,7 +40,7 @@ const ALBUM_DATA = [
     teams: [
       { name: "Estados Unidos", stickers: Array.from({length:20},(_,i)=>`USA ${i+1}`) },
       { name: "Paraguai", stickers: Array.from({length:20},(_,i)=>`PAR ${i+1}`) },
-      { name: "Australia", stickers: Array.from({length:20},(_,i)=>`AUS ${i+1}`) },
+      { name: "Austrália", stickers: Array.from({length:20},(_,i)=>`AUS ${i+1}`) },
       { name: "Turquia", stickers: Array.from({length:20},(_,i)=>`TUR ${i+1}`) },
     ]
   },
@@ -48,7 +48,7 @@ const ALBUM_DATA = [
     section: "Grupo E",
     teams: [
       { name: "Alemanha", stickers: Array.from({length:20},(_,i)=>`GER ${i+1}`) },
-      { name: "Curacao", stickers: Array.from({length:20},(_,i)=>`CUW ${i+1}`) },
+      { name: "Curaçao", stickers: Array.from({length:20},(_,i)=>`CUW ${i+1}`) },
       { name: "Costa do Marfim", stickers: Array.from({length:20},(_,i)=>`CIV ${i+1}`) },
       { name: "Equador", stickers: Array.from({length:20},(_,i)=>`ECU ${i+1}`) },
     ]
@@ -57,18 +57,18 @@ const ALBUM_DATA = [
     section: "Grupo F",
     teams: [
       { name: "Holanda", stickers: Array.from({length:20},(_,i)=>`NED ${i+1}`) },
-      { name: "Japao", stickers: Array.from({length:20},(_,i)=>`JPN ${i+1}`) },
-      { name: "Suecia", stickers: Array.from({length:20},(_,i)=>`SWE ${i+1}`) },
-      { name: "Tunisia", stickers: Array.from({length:20},(_,i)=>`TUN ${i+1}`) },
+      { name: "Japão", stickers: Array.from({length:20},(_,i)=>`JPN ${i+1}`) },
+      { name: "Suécia", stickers: Array.from({length:20},(_,i)=>`SWE ${i+1}`) },
+      { name: "Tunísia", stickers: Array.from({length:20},(_,i)=>`TUN ${i+1}`) },
     ]
   },
   {
     section: "Grupo G",
     teams: [
-      { name: "Belgica", stickers: Array.from({length:20},(_,i)=>`BEL ${i+1}`) },
+      { name: "Bélgica", stickers: Array.from({length:20},(_,i)=>`BEL ${i+1}`) },
       { name: "Egito", stickers: Array.from({length:20},(_,i)=>`EGY ${i+1}`) },
-      { name: "Ira", stickers: Array.from({length:20},(_,i)=>`IRN ${i+1}`) },
-      { name: "Nova Zelandia", stickers: Array.from({length:20},(_,i)=>`NZL ${i+1}`) },
+      { name: "Irã", stickers: Array.from({length:20},(_,i)=>`IRN ${i+1}`) },
+      { name: "Nova Zelândia", stickers: Array.from({length:20},(_,i)=>`NZL ${i+1}`) },
     ]
   },
   {
@@ -76,14 +76,14 @@ const ALBUM_DATA = [
     teams: [
       { name: "Espanha", stickers: Array.from({length:20},(_,i)=>`ESP ${i+1}`) },
       { name: "Cabo Verde", stickers: Array.from({length:20},(_,i)=>`CPV ${i+1}`) },
-      { name: "Arabia Saudita", stickers: Array.from({length:20},(_,i)=>`KSA ${i+1}`) },
+      { name: "Arábia Saudita", stickers: Array.from({length:20},(_,i)=>`KSA ${i+1}`) },
       { name: "Uruguai", stickers: Array.from({length:20},(_,i)=>`URU ${i+1}`) },
     ]
   },
   {
     section: "Grupo I",
     teams: [
-      { name: "Franca", stickers: Array.from({length:20},(_,i)=>`FRA ${i+1}`) },
+      { name: "França", stickers: Array.from({length:20},(_,i)=>`FRA ${i+1}`) },
       { name: "Senegal", stickers: Array.from({length:20},(_,i)=>`SEN ${i+1}`) },
       { name: "Iraque", stickers: Array.from({length:20},(_,i)=>`IRQ ${i+1}`) },
       { name: "Noruega", stickers: Array.from({length:20},(_,i)=>`NOR ${i+1}`) },
@@ -93,9 +93,9 @@ const ALBUM_DATA = [
     section: "Grupo J",
     teams: [
       { name: "Argentina", stickers: Array.from({length:20},(_,i)=>`ARG ${i+1}`) },
-      { name: "Argelia", stickers: Array.from({length:20},(_,i)=>`ALG ${i+1}`) },
-      { name: "Austria", stickers: Array.from({length:20},(_,i)=>`AUT ${i+1}`) },
-      { name: "Jordania", stickers: Array.from({length:20},(_,i)=>`JOR ${i+1}`) },
+      { name: "Argélia", stickers: Array.from({length:20},(_,i)=>`ALG ${i+1}`) },
+      { name: "Áustria", stickers: Array.from({length:20},(_,i)=>`AUT ${i+1}`) },
+      { name: "Jordânia", stickers: Array.from({length:20},(_,i)=>`JOR ${i+1}`) },
     ]
   },
   {
@@ -103,21 +103,21 @@ const ALBUM_DATA = [
     teams: [
       { name: "Portugal", stickers: Array.from({length:20},(_,i)=>`POR ${i+1}`) },
       { name: "Congo", stickers: Array.from({length:20},(_,i)=>`COD ${i+1}`) },
-      { name: "Uzbequistao", stickers: Array.from({length:20},(_,i)=>`UZB ${i+1}`) },
-      { name: "Colombia", stickers: Array.from({length:20},(_,i)=>`COL ${i+1}`) },
+      { name: "Uzbequistão", stickers: Array.from({length:20},(_,i)=>`UZB ${i+1}`) },
+      { name: "Colômbia", stickers: Array.from({length:20},(_,i)=>`COL ${i+1}`) },
     ]
   },
   {
     section: "Grupo L",
     teams: [
       { name: "Inglaterra", stickers: Array.from({length:20},(_,i)=>`ENG ${i+1}`) },
-      { name: "Croacia", stickers: Array.from({length:20},(_,i)=>`CRO ${i+1}`) },
+      { name: "Croácia", stickers: Array.from({length:20},(_,i)=>`CRO ${i+1}`) },
       { name: "Gana", stickers: Array.from({length:20},(_,i)=>`GHA ${i+1}`) },
-      { name: "Panama", stickers: Array.from({length:20},(_,i)=>`PAN ${i+1}`) },
+      { name: "Panamá", stickers: Array.from({length:20},(_,i)=>`PAN ${i+1}`) },
     ]
   },
   {
-    section: "Historia Copa do Mundo",
+    section: "História Copa do Mundo",
     teams: [{ name: "", stickers: ["FWC 9","FWC 10","FWC 11","FWC 12","FWC 13","FWC 14","FWC 15","FWC 16","FWC 17","FWC 18","FWC 19"] }]
   },
   {
