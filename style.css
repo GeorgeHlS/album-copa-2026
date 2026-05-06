@@ -17,18 +17,14 @@ header {
   background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
   color: #fff; padding: 16px 20px; text-align: center;
   position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; gap: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,.2);
 }
+.header-logo { height: 50px; }
+.header-text { flex: 1; }
 header h1 { font-size: 1.4rem; margin-bottom: 4px; }
 header .subtitle { font-size: .8rem; opacity: .85; }
 
-.sync-status {
-  position: absolute; top: 12px; right: 16px;
-  font-size: .7rem; display: flex; align-items: center; gap: 4px;
-}
-.sync-dot { width: 8px; height: 8px; border-radius: 50%; }
-.sync-dot.online { background: #4f4; }
-.sync-dot.offline { background: #f44; }
 
 /* Search bar */
 .search-bar {

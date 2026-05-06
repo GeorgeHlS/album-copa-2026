@@ -184,7 +184,6 @@ function initFirebase() {
     if (FIREBASE_CONFIG.apiKey === "SUA_API_KEY") {
       console.log("Firebase nao configurado — usando localStorage");
       loadFromLocalStorage();
-      updateSyncStatus(false);
       return;
     }
     firebase.initializeApp(FIREBASE_CONFIG);
@@ -192,7 +191,6 @@ function initFirebase() {
     dupRef = firebase.database().ref("album/duplicates");
     dbRef.on("value", (snapshot) => {
       ownedStickers = snapshot.val() || {};
-      updateSyncStatus(true);
       renderAll();
     });
     dupRef.on("value", (snapshot) => {
@@ -201,13 +199,15 @@ function initFirebase() {
       buildDuplicates();
     });
     firebase.database().ref(".info/connected").on("value", (snap) => {
-      updateSyncStatus(snap.val() === true);
+      if (snap.val() === false) {
+        showToast("Sem conexão com o banco de dados. Usando dados locais.");
+      }
     });
     firebaseReady = true;
   } catch(e) {
     console.error("Firebase error:", e);
+    showToast("Erro ao conectar com o banco de dados!");
     loadFromLocalStorage();
-    updateSyncStatus(false);
   }
 }
 
@@ -247,11 +247,6 @@ function stickerKey(code) { return code.replace(/ /g, "_"); }
 function isOwned(code) { return ownedStickers[stickerKey(code)] === true; }
 
 // ==================== UI ====================
-function updateSyncStatus(online) {
-  document.getElementById("syncDot").className = "sync-dot " + (online ? "online" : "offline");
-  document.getElementById("syncLabel").textContent = online ? "Sincronizado" : "Offline (local)";
-}
-
 function showToast(msg) {
   const t = document.getElementById("toast");
   t.textContent = msg;
