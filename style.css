@@ -72,7 +72,7 @@ header .subtitle { font-size: .8rem; opacity: .85; }
 .chart-container canvas { max-height: 250px; }
 
 /* Sections */
-.sections { padding: 8px 16px 80px; }
+.sections { padding: 8px 16px 16px; }
 
 .section-header {
   background: var(--card); border-radius: 10px; padding: 14px 16px;
@@ -127,25 +127,6 @@ header .subtitle { font-size: .8rem; opacity: .85; }
   border-color: var(--gold); box-shadow: 0 0 8px rgba(212,160,23,.5);
 }
 
-/* Quick add */
-.quick-add {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: #fff; padding: 10px 16px;
-  box-shadow: 0 -2px 8px rgba(0,0,0,.1);
-  display: flex; gap: 8px; z-index: 100;
-}
-.quick-add input {
-  flex: 1; padding: 10px 14px; border: 2px solid #ddd;
-  border-radius: 8px; font-size: .9rem; outline: none;
-}
-.quick-add input:focus { border-color: var(--green); }
-.quick-add button {
-  padding: 10px 20px; background: var(--green); color: #fff;
-  border: none; border-radius: 8px; font-weight: 600;
-  cursor: pointer; font-size: .9rem;
-}
-.quick-add button:active { background: var(--green-light); }
-
 .toast {
   position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
   background: #333; color: #fff; padding: 8px 20px; border-radius: 20px;
@@ -170,7 +151,7 @@ header .subtitle { font-size: .8rem; opacity: .85; }
 .tab-content.active { display: block; }
 
 /* Repetidas */
-.repetidas-container { padding: 16px 16px 80px; }
+.repetidas-container { padding: 16px 16px 16px; }
 
 .dup-summary {
   background: var(--card); border-radius: 12px; padding: 16px;

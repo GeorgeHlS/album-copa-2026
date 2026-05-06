@@ -1,7 +1,7 @@
 // ==================== ALBUM DATA ====================
 const ALBUM_DATA = [
   {
-    section: "Pagina Inicial",
+    section: "Página Inicial",
     teams: [{ name: "", stickers: ["0","FWC 1","FWC 2","FWC 3","FWC 4"] }]
   },
   {
@@ -494,38 +494,6 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
     }
   });
 });
-
-// ==================== QUICK ADD ====================
-document.getElementById("quickBtn").addEventListener("click", quickAdd);
-document.getElementById("quickInput").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") quickAdd();
-});
-
-function quickAdd() {
-  const input = document.getElementById("quickInput");
-  const raw = input.value.trim();
-  if (!raw) return;
-  const codes = raw.split(",").map(s => s.trim().toUpperCase());
-  let count = 0;
-  codes.forEach(code => {
-    if (ALL_STICKERS.has(code)) {
-      saveSticker(stickerKey(code), true);
-      count++;
-    } else {
-      const found = [...ALL_STICKERS].find(s => s.toUpperCase() === code);
-      if (found) {
-        saveSticker(stickerKey(found), true);
-        count++;
-      }
-    }
-  });
-  if (count > 0) {
-    showToast(`${count} figurinha(s) marcada(s)!`);
-    input.value = "";
-  } else {
-    showToast("Nenhuma figurinha encontrada");
-  }
-}
 
 // ==================== DUPLICATES ====================
 function buildDuplicates() {
