@@ -162,7 +162,8 @@ const TOTAL = ALL_STICKERS.size;
 
 // ==================== STATE ====================
 let ownedStickers = {};
-let duplicateStickers = {};
+let duplicateStickers = { george: {}, gustavo: {}, germano: {} };
+let currentOwner = "george";
 let firebaseReady = false;
 let dbRef = null;
 let dupRef = null;
@@ -194,7 +195,12 @@ function initFirebase() {
       renderAll();
     });
     dupRef.on("value", (snapshot) => {
-      duplicateStickers = snapshot.val() || {};
+      const data = snapshot.val() || {};
+      duplicateStickers = {
+        george: data.george || {},
+        gustavo: data.gustavo || {},
+        germano: data.germano || {}
+      };
       localStorage.setItem("album_duplicates", JSON.stringify(duplicateStickers));
       buildDuplicates();
     });
@@ -222,12 +228,13 @@ function saveSticker(key, value) {
 }
 
 function saveDuplicate(key, count) {
+  const ownerData = duplicateStickers[currentOwner];
   if (count <= 0) {
-    delete duplicateStickers[key];
-    if (firebaseReady && dupRef) dupRef.child(key).remove();
+    delete ownerData[key];
+    if (firebaseReady && dupRef) dupRef.child(currentOwner).child(key).remove();
   } else {
-    duplicateStickers[key] = count;
-    if (firebaseReady && dupRef) dupRef.child(key).set(count);
+    ownerData[key] = count;
+    if (firebaseReady && dupRef) dupRef.child(currentOwner).child(key).set(count);
   }
   localStorage.setItem("album_duplicates", JSON.stringify(duplicateStickers));
   buildDuplicates();
@@ -238,8 +245,13 @@ function loadFromLocalStorage() {
     ownedStickers = JSON.parse(localStorage.getItem("album_stickers") || "{}");
   } catch(e) { ownedStickers = {}; }
   try {
-    duplicateStickers = JSON.parse(localStorage.getItem("album_duplicates") || "{}");
-  } catch(e) { duplicateStickers = {}; }
+    const saved = JSON.parse(localStorage.getItem("album_duplicates") || "{}");
+    duplicateStickers = {
+      george: saved.george || {},
+      gustavo: saved.gustavo || {},
+      germano: saved.germano || {}
+    };
+  } catch(e) { duplicateStickers = { george: {}, gustavo: {}, germano: {} }; }
   renderAll();
 }
 
@@ -496,7 +508,8 @@ function buildDuplicates() {
   if (!list) return;
   list.innerHTML = "";
 
-  const entries = Object.entries(duplicateStickers)
+  const ownerData = duplicateStickers[currentOwner] || {};
+  const entries = Object.entries(ownerData)
     .filter(([_, count]) => count > 0)
     .sort(([a], [b]) => a.localeCompare(b));
 
@@ -530,6 +543,16 @@ function buildDuplicates() {
   });
 }
 
+// Owner tabs
+document.querySelectorAll(".dup-owner-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".dup-owner-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    currentOwner = tab.dataset.owner;
+    buildDuplicates();
+  });
+});
+
 document.getElementById("dupBtn").addEventListener("click", addDuplicates);
 document.getElementById("dupInput").addEventListener("keydown", (e) => {
   if (e.key === "Enter") addDuplicates();
@@ -541,17 +564,18 @@ function addDuplicates() {
   if (!raw) return;
   const codes = raw.split(",").map(s => s.trim().toUpperCase());
   let count = 0;
+  const ownerData = duplicateStickers[currentOwner];
   codes.forEach(code => {
     const matched = ALL_STICKERS.has(code) ? code : [...ALL_STICKERS].find(s => s.toUpperCase() === code);
     if (matched) {
       const key = stickerKey(matched);
-      const current = duplicateStickers[key] || 0;
+      const current = ownerData[key] || 0;
       saveDuplicate(key, current + 1);
       count++;
     }
   });
   if (count > 0) {
-    showToast(`${count} repetida(s) adicionada(s)!`);
+    showToast(`${count} repetida(s) adicionada(s) para ${currentOwner.charAt(0).toUpperCase() + currentOwner.slice(1)}!`);
     input.value = "";
   } else {
     showToast("Nenhuma figurinha encontrada");
@@ -561,3 +585,21 @@ function addDuplicates() {
 // ==================== INIT ====================
 initFirebase();
 if (!firebaseReady) renderAll();
+
+// Migração: limpar repetidas antigas (formato antigo sem dono)
+if (firebaseReady && dupRef) {
+  dupRef.once("value", (snap) => {
+    const data = snap.val();
+    if (!data) return;
+    const owners = ["george", "gustavo", "germano"];
+    const keysToRemove = Object.keys(data).filter(k => !owners.includes(k));
+    if (keysToRemove.length > 0) {
+      const updates = {};
+      keysToRemove.forEach(k => updates[k] = null);
+      dupRef.update(updates);
+      console.log("Repetidas antigas removidas:", keysToRemove);
+    }
+  });
+}
+// Limpar localStorage antigo
+localStorage.removeItem("album_duplicates");
